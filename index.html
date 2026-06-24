@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thesis Defense · Kota Kondo</title>
+
+<!--
+==================================================================
+  TODO FOR KOTA — fill these in (search the page for "ADD THIS"):
+  1. BUILDING + ROOM  ........ hero readout + waypoints + map
+  2. MAP EMBED  .............. paste your Google Maps embed src
+  3. MAP / DIRECTIONS LINKS .. Google Maps + Apple Maps URLs
+  4. WAYPOINTS  ............... the real step-by-step directions
+  5. ACCESSIBLE ENTRY  ....... nearest step-free door + elevator
+  6. REMOTE OPTION  .......... Zoom link, or delete that block
+  7. THESIS TITLE  ........... optional, in the hero
+  8. PHOTOS  ................. drop images of the key turns + door
+==================================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --paper:#EFF2F5;
+    --paper-2:#E6EBF0;
+    --ink:#162A3F;
+    --ink-soft:#5E7185;
+    --hair:#D5DCE3;
+    --amber:#D98A2B;
+    --amber-deep:#B86F1B;
+    --path:#177E89;
+    --card:#FFFFFF;
+    --goal-glow:rgba(217,138,43,.18);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,sans-serif;
+    font-size:17px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      linear-gradient(var(--paper-2) 1px,transparent 1px),
+      linear-gradient(90deg,var(--paper-2) 1px,transparent 1px);
+    background-size:46px 46px;
+    background-position:center top;
+  }
+
+  .wrap{max-width:760px;margin:0 auto;padding:0 22px;}
+
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:12.5px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    font-weight:500;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;padding:64px 0 30px;overflow:hidden;}
+  .hero-grid{position:relative;z-index:2;}
+  .hero .eyebrow{margin-bottom:22px;}
+  .hero h1{
+    font-family:"Space Grotesk",sans-serif;
+    font-weight:600;
+    font-size:clamp(42px,9vw,76px);
+    line-height:.98;
+    letter-spacing:-.02em;
+    margin:0 0 18px;
+  }
+  .hero .thesis{
+    font-family:"Space Grotesk",sans-serif;
+    font-weight:400;
+    font-size:clamp(17px,3.4vw,21px);
+    color:var(--ink-soft);
+    max-width:34ch;
+    margin:0 0 34px;
+  }
+
+  /* mission-brief readout */
+  .brief{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    border:1px solid var(--hair);
+    border-radius:14px;
+    background:var(--card);
+    overflow:hidden;
+  }
+  .brief div{padding:16px 18px;border-right:1px solid var(--hair);}
+  .brief div:last-child{border-right:none;}
+  .brief .k{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-soft);margin-bottom:7px;
+  }
+  .brief .v{
+    font-family:"Space Grotesk",sans-serif;font-weight:600;
+    font-size:18px;line-height:1.15;
+  }
+  .brief .v small{display:block;font-weight:400;font-size:12.5px;color:var(--ink-soft);font-family:"IBM Plex Mono",monospace;margin-top:3px;letter-spacing:.02em;}
+
+  @media(max-width:560px){
+    .brief{grid-template-columns:1fr;}
+    .brief div{border-right:none;border-bottom:1px solid var(--hair);}
+    .brief div:last-child{border-bottom:none;}
+  }
+
+  /* trajectory backdrop in hero */
+  .traj{position:absolute;inset:0;z-index:1;width:100%;height:100%;pointer-events:none;opacity:.9;}
+  .traj path{
+    fill:none;stroke:var(--path);stroke-width:1.6;stroke-dasharray:6 7;
+    stroke-dashoffset:1400;
+    animation:draw 2.6s ease-out forwards;
+  }
+  .traj .pin{transform-origin:center;animation:pop .5s ease-out 2.2s both;}
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  @keyframes pop{from{opacity:0;transform:scale(.4);}to{opacity:1;transform:scale(1);}}
+
+  /* ---------- SECTIONS ---------- */
+  .block{padding:30px 0;border-top:1px solid var(--hair);}
+  .block-head{display:flex;align-items:baseline;gap:14px;margin-bottom:24px;}
+  .block-no{
+    font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;
+    color:var(--amber-deep);letter-spacing:.08em;
+  }
+  .block h2{
+    font-family:"Space Grotesk",sans-serif;font-weight:600;
+    font-size:clamp(22px,4.5vw,28px);margin:0;letter-spacing:-.01em;
+  }
+  .lede{color:var(--ink-soft);margin:-8px 0 26px;font-size:15.5px;}
+
+  /* ---------- ROUTE / WAYPOINTS ---------- */
+  .route{list-style:none;margin:0;padding:0;position:relative;}
+  .wp{position:relative;padding:0 0 26px 52px;}
+  .wp:last-child{padding-bottom:0;}
+  .wp::before{ /* connector line */
+    content:"";position:absolute;left:14px;top:6px;bottom:-6px;
+    width:2px;background:var(--path);opacity:.35;
+  }
+  .wp:last-child::before{display:none;}
+  .wp .node{
+    position:absolute;left:6px;top:2px;width:18px;height:18px;border-radius:50%;
+    background:var(--paper);border:2.5px solid var(--amber);z-index:2;
+  }
+  .wp.goal .node{background:var(--amber);box-shadow:0 0 0 6px var(--goal-glow);}
+  .wp .tag{
+    font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);
+    display:block;margin-bottom:3px;
+  }
+  .wp.goal .tag{color:var(--amber-deep);}
+  .wp .step{font-weight:500;font-size:16.5px;}
+  .wp .step .fill{color:var(--amber-deep);font-style:italic;}
+
+  /* ---------- MAP ---------- */
+  .map-frame{
+    border:1px solid var(--hair);border-radius:14px;overflow:hidden;
+    background:var(--card);aspect-ratio:16/10;width:100%;
+  }
+  .map-frame iframe{width:100%;height:100%;border:0;display:block;}
+  .map-placeholder{
+    width:100%;height:100%;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:8px;text-align:center;
+    color:var(--ink-soft);font-family:"IBM Plex Mono",monospace;font-size:13px;
+    background:
+      repeating-linear-gradient(45deg,var(--paper) 0 12px,var(--paper-2) 12px 24px);
+  }
+  .map-actions{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;}
+  .btn{
+    font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600;
+    letter-spacing:.04em;text-decoration:none;padding:13px 20px;border-radius:10px;
+    display:inline-flex;align-items:center;gap:8px;transition:transform .12s ease,background .12s ease;
+  }
+  .btn-primary{background:var(--amber);color:#fff;}
+  .btn-primary:hover{background:var(--amber-deep);transform:translateY(-1px);}
+  .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--hair);}
+  .btn-ghost:hover{border-color:var(--ink-soft);transform:translateY(-1px);}
+
+  /* ---------- PHOTOS ---------- */
+  .photos{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  @media(max-width:560px){.photos{grid-template-columns:1fr 1fr;}}
+  .shot{
+    aspect-ratio:4/3;border-radius:12px;border:1px dashed var(--hair);
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    color:var(--ink-soft);font-family:"IBM Plex Mono",monospace;font-size:11px;
+    padding:8px;background:var(--card);
+  }
+  .shot img{width:100%;height:100%;object-fit:cover;border-radius:12px;}
+
+  /* ---------- INFO CARDS ---------- */
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:560px){.cards{grid-template-columns:1fr;}}
+  .card{
+    background:var(--card);border:1px solid var(--hair);border-radius:14px;padding:20px 22px;
+  }
+  .card .ct{
+    font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-soft);margin-bottom:10px;
+  }
+  .card p{margin:0;font-size:15.5px;}
+  .card a{color:var(--amber-deep);text-decoration:none;font-weight:500;}
+  .card a:hover{text-decoration:underline;}
+
+  /* ---------- TODO MARKERS ---------- */
+  .todo{
+    display:inline-block;border:1.5px dashed var(--amber);border-radius:7px;
+    padding:2px 9px;color:var(--amber-deep);background:var(--goal-glow);
+    font-family:"IBM Plex Mono",monospace;font-size:.86em;font-weight:600;
+    font-style:normal;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:42px 0 60px;border-top:1px solid var(--hair);margin-top:8px;color:var(--ink-soft);}
+  footer .sig{font-family:"Space Grotesk",sans-serif;font-size:15px;color:var(--ink);}
+  footer .meta{font-family:"IBM Plex Mono",monospace;font-size:12px;margin-top:8px;letter-spacing:.04em;}
+
+  :focus-visible{outline:2.5px solid var(--amber);outline-offset:3px;border-radius:4px;}
+
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;}
+    .traj path{stroke-dashoffset:0;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <svg class="traj" viewBox="0 0 760 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <path d="M -20 330 C 160 320, 200 180, 360 200 S 560 120, 700 70"/>
+    <g class="pin" transform="translate(700 70)">
+      <circle r="13" fill="none" stroke="#D98A2B" stroke-width="1.4" opacity=".5"/>
+      <circle r="6" fill="#D98A2B"/>
+    </g>
+  </svg>
+  <div class="wrap hero-grid">
+    <div class="eyebrow">PhD Thesis Defense · MIT AeroAstro · Aerospace Controls Lab</div>
+    <h1>Kota&nbsp;Kondo</h1>
+    <p class="thesis">
+      <!-- ADD THIS (optional): thesis title -->
+      <span class="todo">ADD THIS — thesis title</span>
+    </p>
+
+    <div class="brief">
+      <div>
+        <div class="k">Date</div>
+        <div class="v">Wed, Jul 15<small>2026</small></div>
+      </div>
+      <div>
+        <div class="k">Time</div>
+        <div class="v">1:30 PM<small>– 3:30 PM ET</small></div>
+      </div>
+      <div>
+        <div class="k">Room</div>
+        <div class="v"><span class="todo">ADD THIS</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ ROUTE ============ -->
+<section class="block">
+  <div class="wrap">
+    <div class="block-head">
+      <span class="block-no">01</span>
+      <h2>Getting there</h2>
+    </div>
+    <p class="lede">This room is a little tricky to find, so here is the route, door to door. Italics are the parts to confirm.</p>
+
+    <ol class="route">
+      <li class="wp">
+        <span class="node"></span>
+        <span class="tag">Start</span>
+        <span class="step">Arrive at <span class="fill">Kendall/MIT (Red Line)</span>, or park at <span class="fill">[lot / garage]</span>.</span>
+      </li>
+      <li class="wp">
+        <span class="node"></span>
+        <span class="tag">Waypoint 01</span>
+        <span class="step">Enter <span class="fill">[Building XX]</span> from the <span class="fill">[street name]</span> entrance.</span>
+      </li>
+      <li class="wp">
+        <span class="node"></span>
+        <span class="tag">Waypoint 02</span>
+        <span class="step">Take the elevator to floor <span class="fill">[N]</span>.</span>
+      </li>
+      <li class="wp">
+        <span class="node"></span>
+        <span class="tag">Waypoint 03</span>
+        <span class="step">Turn <span class="fill">[left / right]</span> and follow toward <span class="fill">[wing / landmark]</span>.</span>
+      </li>
+      <li class="wp goal">
+        <span class="node"></span>
+        <span class="tag">Destination</span>
+        <span class="step">Room <span class="fill">[XX-XXX]</span>. Look for the <span class="fill">[door / sign]</span> on your <span class="fill">[left / right]</span>.</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ MAP ============ -->
+<section class="block">
+  <div class="wrap">
+    <div class="block-head">
+      <span class="block-no">02</span>
+      <h2>On the map</h2>
+    </div>
+    <p class="lede">Pinned to the entrance you should use, not the middle of the building.</p>
+
+    <div class="map-frame">
+      <!-- ADD THIS: paste your Google Maps embed below, then delete the placeholder div.
+           Google Maps → Share → Embed a map → copy the <iframe> and drop it here. -->
+      <div class="map-placeholder">
+        <div>[ MAP EMBED GOES HERE ]</div>
+        <div>Maps → Share → Embed a map → paste iframe</div>
+      </div>
+      <!--
+      <iframe src="PASTE_EMBED_SRC_HERE" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      -->
+    </div>
+
+    <div class="map-actions">
+      <!-- ADD THIS: replace # with your Google Maps + Apple Maps links to the entrance -->
+      <a class="btn btn-primary" href="#" target="_blank" rel="noopener">Open in Google Maps →</a>
+      <a class="btn btn-ghost" href="#" target="_blank" rel="noopener">Open in Apple Maps</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PHOTOS ============ -->
+<section class="block">
+  <div class="wrap">
+    <div class="block-head">
+      <span class="block-no">03</span>
+      <h2>What to look for</h2>
+    </div>
+    <p class="lede">Photos of the turns that trip people up, and the actual door. These rescue anyone who gets lost.</p>
+
+    <div class="photos">
+      <!-- ADD THIS: swap each placeholder for <img src="..." alt="..."> -->
+      <div class="shot">[ photo: the entrance ]</div>
+      <div class="shot">[ photo: the key turn ]</div>
+      <div class="shot">[ photo: the door ]</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ACCESS + REMOTE ============ -->
+<section class="block">
+  <div class="wrap">
+    <div class="block-head">
+      <span class="block-no">04</span>
+      <h2>Access &amp; remote</h2>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="ct">Step-free access</div>
+        <!-- ADD THIS: nearest accessible entrance + which elevator -->
+        <p>Nearest step-free entrance: <span class="todo">ADD THIS</span>. Accessible elevator: <span class="todo">ADD THIS</span>.</p>
+      </div>
+      <div class="card">
+        <div class="ct">Joining remotely</div>
+        <!-- ADD THIS: Zoom link, or delete this whole card if in person only -->
+        <p>If you can't make it in person, join here: <a href="#">[ Zoom link ]</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="sig">See you there. Thanks for coming.</div>
+    <div class="meta">Questions? <span class="todo">ADD THIS — email</span></div>
+  </div>
+</footer>
+
+</body>
+</html>
