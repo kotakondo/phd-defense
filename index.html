@@ -7,15 +7,14 @@
 
 <!--
 ==================================================================
-  TODO FOR KOTA — fill these in (search the page for "ADD THIS"):
-  1. BUILDING + ROOM  ........ hero readout + waypoints + map
-  2. MAP EMBED  .............. paste your Google Maps embed src
-  3. MAP / DIRECTIONS LINKS .. Google Maps + Apple Maps URLs
-  4. WAYPOINTS  ............... the real step-by-step directions
-  5. ACCESSIBLE ENTRY  ....... nearest step-free door + elevator
-  6. REMOTE OPTION  .......... Zoom link, or delete that block
-  7. THESIS TITLE  ........... optional, in the hero
-  8. PHOTOS  ................. drop images of the key turns + door
+  Kota Kondo — PhD thesis defense page. Content is filled in.
+
+  PHOTOS  ... photos/01.jpg … photos/14.jpg are the door-to-door
+             route, in order (start outside Bldg 33 → room 33-218).
+             Originals live in "iCloud Photos/" (IMG_2124 → IMG_2111).
+  MAP     ... pinned to 42.360056, -71.094444 (just outside Bldg 33).
+             To swap in your own Google Maps pin, replace the
+             <iframe src="…"> in section 01.
 ==================================================================
 -->
 
@@ -79,17 +78,18 @@
   }
   .hero .thesis{
     font-family:"Space Grotesk",sans-serif;
-    font-weight:400;
-    font-size:clamp(17px,3.4vw,21px);
-    color:var(--ink-soft);
-    max-width:34ch;
+    font-weight:500;
+    font-size:clamp(18px,3.6vw,23px);
+    color:var(--ink);
+    max-width:24ch;
+    line-height:1.28;
     margin:0 0 34px;
   }
 
   /* mission-brief readout */
   .brief{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:repeat(4,1fr);
     border:1px solid var(--hair);
     border-radius:14px;
     background:var(--card);
@@ -106,12 +106,15 @@
     font-family:"Space Grotesk",sans-serif;font-weight:600;
     font-size:18px;line-height:1.15;
   }
-  .brief .v small{display:block;font-weight:400;font-size:12.5px;color:var(--ink-soft);font-family:"IBM Plex Mono",monospace;margin-top:3px;letter-spacing:.02em;}
+  .brief .v small{display:block;font-weight:400;font-size:12px;color:var(--ink-soft);font-family:"IBM Plex Mono",monospace;margin-top:5px;letter-spacing:.02em;line-height:1.4;}
+  .brief a.v{color:var(--amber-deep);text-decoration:none;}
+  .brief a.v:hover{text-decoration:underline;}
 
   @media(max-width:560px){
-    .brief{grid-template-columns:1fr;}
-    .brief div{border-right:none;border-bottom:1px solid var(--hair);}
-    .brief div:last-child{border-bottom:none;}
+    .brief{grid-template-columns:1fr 1fr;}
+    .brief div{border-right:1px solid var(--hair);border-bottom:1px solid var(--hair);}
+    .brief div:nth-child(2n){border-right:none;}
+    .brief div:nth-last-child(-n+2){border-bottom:none;}
   }
 
   /* trajectory backdrop in hero */
@@ -138,42 +141,12 @@
   }
   .lede{color:var(--ink-soft);margin:-8px 0 26px;font-size:15.5px;}
 
-  /* ---------- ROUTE / WAYPOINTS ---------- */
-  .route{list-style:none;margin:0;padding:0;position:relative;}
-  .wp{position:relative;padding:0 0 26px 52px;}
-  .wp:last-child{padding-bottom:0;}
-  .wp::before{ /* connector line */
-    content:"";position:absolute;left:14px;top:6px;bottom:-6px;
-    width:2px;background:var(--path);opacity:.35;
-  }
-  .wp:last-child::before{display:none;}
-  .wp .node{
-    position:absolute;left:6px;top:2px;width:18px;height:18px;border-radius:50%;
-    background:var(--paper);border:2.5px solid var(--amber);z-index:2;
-  }
-  .wp.goal .node{background:var(--amber);box-shadow:0 0 0 6px var(--goal-glow);}
-  .wp .tag{
-    font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;
-    letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);
-    display:block;margin-bottom:3px;
-  }
-  .wp.goal .tag{color:var(--amber-deep);}
-  .wp .step{font-weight:500;font-size:16.5px;}
-  .wp .step .fill{color:var(--amber-deep);font-style:italic;}
-
   /* ---------- MAP ---------- */
   .map-frame{
     border:1px solid var(--hair);border-radius:14px;overflow:hidden;
     background:var(--card);aspect-ratio:16/10;width:100%;
   }
   .map-frame iframe{width:100%;height:100%;border:0;display:block;}
-  .map-placeholder{
-    width:100%;height:100%;display:flex;flex-direction:column;
-    align-items:center;justify-content:center;gap:8px;text-align:center;
-    color:var(--ink-soft);font-family:"IBM Plex Mono",monospace;font-size:13px;
-    background:
-      repeating-linear-gradient(45deg,var(--paper) 0 12px,var(--paper-2) 12px 24px);
-  }
   .map-actions{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;}
   .btn{
     font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600;
@@ -185,43 +158,31 @@
   .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--hair);}
   .btn-ghost:hover{border-color:var(--ink-soft);transform:translateY(-1px);}
 
-  /* ---------- PHOTOS ---------- */
-  .photos{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
-  @media(max-width:560px){.photos{grid-template-columns:1fr 1fr;}}
-  .shot{
-    aspect-ratio:4/3;border-radius:12px;border:1px dashed var(--hair);
-    display:flex;align-items:center;justify-content:center;text-align:center;
-    color:var(--ink-soft);font-family:"IBM Plex Mono",monospace;font-size:11px;
-    padding:8px;background:var(--card);
+  /* ---------- PHOTO WALKTHROUGH ---------- */
+  .walk{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:34px;}
+  .stop figure{margin:0;}
+  .stop img{
+    width:100%;height:auto;display:block;border-radius:14px;
+    border:1px solid var(--hair);background:var(--paper-2);
   }
-  .shot img{width:100%;height:100%;object-fit:cover;border-radius:12px;}
-
-  /* ---------- INFO CARDS ---------- */
-  .cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-  @media(max-width:560px){.cards{grid-template-columns:1fr;}}
-  .card{
-    background:var(--card);border:1px solid var(--hair);border-radius:14px;padding:20px 22px;
+  .stop figcaption{display:flex;gap:14px;align-items:flex-start;margin-top:14px;}
+  .stop .num{
+    flex:none;width:34px;height:34px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600;
+    background:var(--paper);border:2.5px solid var(--amber);color:var(--amber-deep);
   }
-  .card .ct{
-    font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;
-    text-transform:uppercase;color:var(--ink-soft);margin-bottom:10px;
-  }
-  .card p{margin:0;font-size:15.5px;}
-  .card a{color:var(--amber-deep);text-decoration:none;font-weight:500;}
-  .card a:hover{text-decoration:underline;}
-
-  /* ---------- TODO MARKERS ---------- */
-  .todo{
-    display:inline-block;border:1.5px dashed var(--amber);border-radius:7px;
-    padding:2px 9px;color:var(--amber-deep);background:var(--goal-glow);
-    font-family:"IBM Plex Mono",monospace;font-size:.86em;font-weight:600;
-    font-style:normal;
-  }
+  .stop.goal .num{background:var(--amber);color:#fff;box-shadow:0 0 0 6px var(--goal-glow);}
+  .stop .cap{font-size:15.5px;line-height:1.5;padding-top:4px;}
+  .stop .cap b{font-weight:600;}
+  .stop.goal .cap b{color:var(--amber-deep);}
 
   /* ---------- FOOTER ---------- */
   footer{padding:42px 0 60px;border-top:1px solid var(--hair);margin-top:8px;color:var(--ink-soft);}
   footer .sig{font-family:"Space Grotesk",sans-serif;font-size:15px;color:var(--ink);}
   footer .meta{font-family:"IBM Plex Mono",monospace;font-size:12px;margin-top:8px;letter-spacing:.04em;}
+  footer a{color:var(--amber-deep);text-decoration:none;font-weight:500;}
+  footer a:hover{text-decoration:underline;}
 
   :focus-visible{outline:2.5px solid var(--amber);outline-offset:3px;border-radius:4px;}
 
@@ -246,10 +207,7 @@
   <div class="wrap hero-grid">
     <div class="eyebrow">PhD Thesis Defense · MIT AeroAstro · Aerospace Controls Lab</div>
     <h1>Kota&nbsp;Kondo</h1>
-    <p class="thesis">
-      <!-- ADD THIS (optional): thesis title -->
-      <span class="todo">ADD THIS — thesis title</span>
-    </p>
+    <p class="thesis">Safe and Fast Trajectory Planning in Unknown Dynamic Environments</p>
 
     <div class="brief">
       <div>
@@ -262,118 +220,134 @@
       </div>
       <div>
         <div class="k">Room</div>
-        <div class="v"><span class="todo">ADD THIS</span></div>
+        <div class="v">33-218<small>Building 33 · AeroAstro</small></div>
+      </div>
+      <div>
+        <div class="k">Remote</div>
+        <a class="v" href="https://mit.zoom.us/j/95527616172" target="_blank" rel="noopener">Join on Zoom<small>ID 955 2761 6172</small></a>
       </div>
     </div>
   </div>
 </header>
 
-<!-- ============ ROUTE ============ -->
-<section class="block">
-  <div class="wrap">
-    <div class="block-head">
-      <span class="block-no">01</span>
-      <h2>Getting there</h2>
-    </div>
-    <p class="lede">This room is a little tricky to find, so here is the route, door to door. Italics are the parts to confirm.</p>
-
-    <ol class="route">
-      <li class="wp">
-        <span class="node"></span>
-        <span class="tag">Start</span>
-        <span class="step">Arrive at <span class="fill">Kendall/MIT (Red Line)</span>, or park at <span class="fill">[lot / garage]</span>.</span>
-      </li>
-      <li class="wp">
-        <span class="node"></span>
-        <span class="tag">Waypoint 01</span>
-        <span class="step">Enter <span class="fill">[Building XX]</span> from the <span class="fill">[street name]</span> entrance.</span>
-      </li>
-      <li class="wp">
-        <span class="node"></span>
-        <span class="tag">Waypoint 02</span>
-        <span class="step">Take the elevator to floor <span class="fill">[N]</span>.</span>
-      </li>
-      <li class="wp">
-        <span class="node"></span>
-        <span class="tag">Waypoint 03</span>
-        <span class="step">Turn <span class="fill">[left / right]</span> and follow toward <span class="fill">[wing / landmark]</span>.</span>
-      </li>
-      <li class="wp goal">
-        <span class="node"></span>
-        <span class="tag">Destination</span>
-        <span class="step">Room <span class="fill">[XX-XXX]</span>. Look for the <span class="fill">[door / sign]</span> on your <span class="fill">[left / right]</span>.</span>
-      </li>
-    </ol>
-  </div>
-</section>
-
 <!-- ============ MAP ============ -->
 <section class="block">
   <div class="wrap">
     <div class="block-head">
-      <span class="block-no">02</span>
+      <span class="block-no">01</span>
       <h2>On the map</h2>
     </div>
-    <p class="lede">Pinned to the entrance you should use, not the middle of the building.</p>
+    <p class="lede">Pinned just outside Building 33 (AeroAstro) — the exact spot where the photo route below begins.</p>
 
     <div class="map-frame">
-      <!-- ADD THIS: paste your Google Maps embed below, then delete the placeholder div.
-           Google Maps → Share → Embed a map → copy the <iframe> and drop it here. -->
-      <div class="map-placeholder">
-        <div>[ MAP EMBED GOES HERE ]</div>
-        <div>Maps → Share → Embed a map → paste iframe</div>
-      </div>
-      <!--
-      <iframe src="PASTE_EMBED_SRC_HERE" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      -->
+      <iframe
+        src="https://maps.google.com/maps?q=42.360056,-71.094444&z=17&output=embed"
+        title="Map: starting point outside MIT Building 33"
+        allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
 
     <div class="map-actions">
-      <!-- ADD THIS: replace # with your Google Maps + Apple Maps links to the entrance -->
-      <a class="btn btn-primary" href="#" target="_blank" rel="noopener">Open in Google Maps →</a>
-      <a class="btn btn-ghost" href="#" target="_blank" rel="noopener">Open in Apple Maps</a>
+      <a class="btn btn-primary" href="https://www.google.com/maps/search/?api=1&query=42.360056,-71.094444" target="_blank" rel="noopener">Open in Google Maps →</a>
+      <a class="btn btn-ghost" href="https://maps.apple.com/?ll=42.360056,-71.094444&q=AeroAstro%20(Building%2033)" target="_blank" rel="noopener">Open in Apple Maps</a>
     </div>
   </div>
 </section>
 
-<!-- ============ PHOTOS ============ -->
+<!-- ============ PHOTO WALKTHROUGH ============ -->
 <section class="block">
   <div class="wrap">
     <div class="block-head">
-      <span class="block-no">03</span>
-      <h2>What to look for</h2>
+      <span class="block-no">02</span>
+      <h2>Door to door, in photos</h2>
     </div>
-    <p class="lede">Photos of the turns that trip people up, and the actual door. These rescue anyone who gets lost.</p>
+    <p class="lede">From the pin above to the conference room, step by step. The last frame is the door — Room 33-218.</p>
 
-    <div class="photos">
-      <!-- ADD THIS: swap each placeholder for <img src="..." alt="..."> -->
-      <div class="shot">[ photo: the entrance ]</div>
-      <div class="shot">[ photo: the key turn ]</div>
-      <div class="shot">[ photo: the door ]</div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ ACCESS + REMOTE ============ -->
-<section class="block">
-  <div class="wrap">
-    <div class="block-head">
-      <span class="block-no">04</span>
-      <h2>Access &amp; remote</h2>
-    </div>
-
-    <div class="cards">
-      <div class="card">
-        <div class="ct">Step-free access</div>
-        <!-- ADD THIS: nearest accessible entrance + which elevator -->
-        <p>Nearest step-free entrance: <span class="todo">ADD THIS</span>. Accessible elevator: <span class="todo">ADD THIS</span>.</p>
-      </div>
-      <div class="card">
-        <div class="ct">Joining remotely</div>
-        <!-- ADD THIS: Zoom link, or delete this whole card if in person only -->
-        <p>If you can't make it in person, join here: <a href="#">[ Zoom link ]</a>.</p>
-      </div>
-    </div>
+    <ol class="walk">
+      <li class="stop">
+        <figure>
+          <img src="photos/01.jpg" alt="Lawn and walkway in front of MIT Building 33" width="1440" height="1080" decoding="async">
+          <figcaption><span class="num">01</span><span class="cap"><b>Start outside Building 33.</b> You're at the pin, on the lawn in front of the AeroAstro building. Head toward the stone facade.</span></figcaption>
+        </figure>
+      </li>
+      <li class="stop">
+        <figure>
+          <img src="photos/02.jpg" alt="Approaching the main entrance of Building 33" width="1440" height="1080" loading="lazy" decoding="async">
+          <figcaption><span class="num">02</span><span class="cap"><b>Walk up to the main entrance.</b> Make for the central doors at the top of the steps.</span></figcaption>
+        </figure>
+      </li>
+      <li class="stop">
+        <figure>
+          <img src="photos/03.jpg" alt="Ornate central entrance doors at the top of the steps" width="1440" height="1080" loading="lazy" decoding="async">
+          <figcaption><span class="num">03</span><span class="cap"><b>Go in through the front doors.</b> Through the tall ornate doors and into the lobby.</span></figcaption>
+        </figure>
+      </li>
+      <li class="stop">
+        <figure>
+          <img src="photos/04.jpg" alt="Interior lobby with a sky-and-clouds mural beside a staircase" width="1440" height="1080" loading="lazy" decoding="async">
+          <figcaption><span class="num">04</span><span class="cap"><b>Cross the lobby.</b> Pass the sky mural and head for the stairwell (Stair 2) on your right.</span></figcaption>
+        </figure>
+      </li>
+      <li class="stop">
+        <figure>
+          <img src="photos/05.jpg" alt="Base of the stairwell, stairs leading up" width="1440" height="1080" loading="lazy" decoding="async">
+          <figcaption><span class="num">05</span><span class="cap"><b>Start up the stairs.</b> Take Stair 2 up toward Level 2.</span></figcaption>
+        </figure>
+      </li>
+      <li class="stop">
+        <figure>
+          <img src="photos/06.jpg" alt="Continuing up the stairwell" width="1440" height="1080" loading="lazy" decoding="async">
+          <figcaption><span class="num">06</span><span class="cap"><b>Keep climbing.</b> Up the next flight.</span></figcaption>
+        </figure>
+      </li>
+      <li class="stop">
+        <figure>
+          <img src="photos/07.jpg" alt="Upper flight of the stairwell" width="1440" height="1080" loading="lazy" decoding="async">
+          <figcaption><span class="num">07</span><span class="cap"><b>One more flight.</b> Almost at the top.</span></figcaption>
+        </figure>
+      </li>
+      <li class="stop">
+        <figure>
+          <img src="photos/08.jpg" alt="Landing at the top of the stairs" width="1440" height="1080" loading="lazy" decoding="async">
+          <figcaption><span class="num">08</span><span class="cap"><b>Step out at the landing.</b> Leave the stairwell at the top.</span></figcaption>
+        </figure>
+      </li>
+      <li class="stop">
+        <figure>
+          <img src="photos/09.jpg" alt="Hallway with windows along one side" width="1440" height="1080" loading="lazy" decoding="async">
+          <figcaption><span class="num">09</span><span class="cap"><b>Follow the hallway.</b> Past the windows, straight ahead.</span></figcaption>
+        </figure>
+      </li>
+      <li class="stop">
+        <figure>
+          <img src="photos/10.jpg" alt="Level 2 stairwell marker for Building 33, Stair 2" width="1440" height="1080" loading="lazy" decoding="async">
+          <figcaption><span class="num">10</span><span class="cap"><b>You're on Level 2.</b> The marker confirms Building 33, Stair 2, Level 2. Keep going.</span></figcaption>
+        </figure>
+      </li>
+      <li class="stop">
+        <figure>
+          <img src="photos/11.jpg" alt="Corridor with a purple accent wall" width="1440" height="1080" loading="lazy" decoding="async">
+          <figcaption><span class="num">11</span><span class="cap"><b>Into the corridor.</b> Continue along, purple wall on your right.</span></figcaption>
+        </figure>
+      </li>
+      <li class="stop">
+        <figure>
+          <img src="photos/12.jpg" alt="Long hallway with a blue stripe along the wall" width="1440" height="1080" loading="lazy" decoding="async">
+          <figcaption><span class="num">12</span><span class="cap"><b>Down the long hallway.</b> Follow the blue stripe on the wall.</span></figcaption>
+        </figure>
+      </li>
+      <li class="stop">
+        <figure>
+          <img src="photos/13.jpg" alt="Near the end of the hallway, doors ahead" width="1440" height="1080" loading="lazy" decoding="async">
+          <figcaption><span class="num">13</span><span class="cap"><b>Almost there.</b> The door is just ahead.</span></figcaption>
+        </figure>
+      </li>
+      <li class="stop goal">
+        <figure>
+          <img src="photos/14.jpg" alt="Door of Room 33-218, Department of Aeronautics and Astronautics" width="1440" height="1080" loading="lazy" decoding="async">
+          <figcaption><span class="num">14</span><span class="cap"><b>Room 33-218 — you made it.</b> Department of Aeronautics &amp; Astronautics. This is the conference room. See you inside.</span></figcaption>
+        </figure>
+      </li>
+    </ol>
   </div>
 </section>
 
@@ -381,7 +355,7 @@
 <footer>
   <div class="wrap">
     <div class="sig">See you there. Thanks for coming.</div>
-    <div class="meta">Questions? <span class="todo">ADD THIS — email</span></div>
+    <div class="meta">Questions? <a href="mailto:kkondo@mit.edu">kkondo@mit.edu</a></div>
   </div>
 </footer>
 
